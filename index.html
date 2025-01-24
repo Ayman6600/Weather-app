@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather App</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>@import url('https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,300;0,400;0,700;0,900&display=swap');</style>
+</head>
+<body>
+    <button id="toggle-theme"><i class="fas fa-adjust"></i> Toggle Theme</button>
+    <div class="container">
+        <h1><i class="fas fa-cloud-sun"></i> Weather App</h1>
+        <div class="input-container">
+            <input type="text" id="city-input" placeholder="Enter City Name">
+            <button id="get-weather"><i class="fas fa-search"></i> Get Weather</button>
+        </div>
+        <div id="weather-info" class="hidden">
+            <h2 id="city-name">City Name</h2>
+            <p id="date-time">Date and Time</p>
+            <img id="weather-icon" src="" alt="Weather Icon">
+            <div class="weather-details">
+                <div class="weather-detail">
+                    <i class="fas fa-thermometer-half"></i>
+                    <p id="temp">Temperature: --</p>
+                </div>
+                <div class="weather-detail">
+                    <i class="fas fa-info-circle"></i>
+                    <p id="description">Description: --</p>
+                </div>
+                <div class="weather-detail">
+                    <i class="fas fa-tint"></i>
+                    <p id="humidity">Humidity: --</p>
+                </div>
+                <div class="weather-detail">
+                    <i class="fas fa-wind"></i>
+                    <p id="wind-speed">Wind Speed: --</p>
+                </div>
+            </div>
+        </div>
+        <div id="forecast" class="hidden">
+            <h3><i class="fas fa-calendar-alt"></i> 5-Day Forecast</h3>
+            <div id="forecast-container"></div>
+        </div>
+        <p id="error-message" class="hidden"><i class="fas fa-exclamation-triangle"></i> City not found, please try again!</p>
+    </div>
+    <script type="module" src="script.js"></script>
+</body>
+</html>
