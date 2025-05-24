@@ -3,48 +3,128 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Weather App</title>
+    <title>WeatherPro - Advanced Weather App</title>
     <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <style>@import url('https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,300;0,400;0,700;0,900&display=swap');</style>
+    
+    <script src="script.js"></script>
+  
+    
 </head>
 <body>
-    <button id="toggle-theme"><i class="fas fa-adjust"></i> Toggle Theme</button>
+    <div class="rain" id="rain"></div>
+    <div class="snow hidden" id="snow"></div>
+    
+    <button class="theme-toggle" id="themeToggle">
+        <i class="fas fa-moon"></i>
+    </button>
+
     <div class="container">
-        <h1><i class="fas fa-cloud-sun"></i> Weather App</h1>
-        <div class="input-container">
-            <input type="text" id="city-input" placeholder="Enter City Name">
-            <button id="get-weather"><i class="fas fa-search"></i> Get Weather</button>
+        <header class="header">
+            <h1><i class="fas fa-cloud-sun"></i> WeatherPro </h1>
+            <p>Advanced Weather Forecast with Real-time Data</p>
+        </header>
+
+        <section class="search-section">
+            <div class="search-container">
+                <input type="text" class="search-input" id="locationInput" placeholder="Enter city name or coordinates (e.g., London, UK or 40.7128,-74.0060)">
+                <button class="search-btn" id="searchBtn">
+                    <i class="fas fa-search"></i>
+                    Search Weather
+                </button>
+            </div>
+            <div class="quick-search">
+                <button class="quick-btn" data-city="New York,US">New York</button>
+                <button class="quick-btn" data-city="London,UK">London</button>
+                <button class="quick-btn" data-city="Tokyo,JP">Tokyo</button>
+                <button class="quick-btn" data-city="Paris,FR">Paris</button>
+                <button class="quick-btn" data-city="Sydney,AU">Sydney</button>
+                <button class="quick-btn" data-city="Mumbai,IN">Mumbai</button>
+                <button class="quick-btn" data-city="Dubai,AE">Dubai</button>
+                <button class="quick-btn" data-city="São Paulo,BR">São Paulo</button>
+            </div>
+        </section>
+
+        <div id="loading" class="loading hidden">
+            <div class="loader"></div>
+            <p>Fetching weather data...</p>
         </div>
-        <div id="weather-info" class="hidden">
-            <h2 id="city-name">City Name</h2>
-            <p id="date-time">Date and Time</p>
-            <img id="weather-icon" src="" alt="Weather Icon">
-            <div class="weather-details">
-                <div class="weather-detail">
-                    <i class="fas fa-thermometer-half"></i>
-                    <p id="temp">Temperature: --</p>
+
+        <div id="error" class="error hidden">
+            <i class="fas fa-exclamation-triangle"></i>
+            <p>Unable to fetch weather data. Please check the location and try again.</p>
+        </div>
+
+        <div id="weatherContent" class="hidden">
+            <div class="weather-display">
+                <div class="current-weather">
+                    <div class="weather-icon" id="weatherIcon">
+                        <i class="fas fa-sun"></i>
+                    </div>
+                    <div class="temperature" id="temperature">--°</div>
+                    <h2 id="locationName">--</h2>
+                    <p id="weatherDescription">--</p>
+                    <p id="dateTime">--</p>
                 </div>
-                <div class="weather-detail">
-                    <i class="fas fa-info-circle"></i>
-                    <p id="description">Description: --</p>
+
+                <div class="weather-details">
+                    <div class="detail-card">
+                        <i class="fas fa-eye"></i>
+                        <h3>Visibility</h3>
+                        <p id="visibility">-- km</p>
+                    </div>
+                    <div class="detail-card">
+                        <i class="fas fa-tint"></i>
+                        <h3>Humidity</h3>
+                        <p id="humidity">--%</p>
+                    </div>
+                    <div class="detail-card">
+                        <i class="fas fa-wind"></i>
+                        <h3>Wind Speed</h3>
+                        <p id="windSpeed">-- km/h</p>
+                    </div>
+                    <div class="detail-card">
+                        <i class="fas fa-thermometer-half"></i>
+                        <h3>Feels Like</h3>
+                        <p id="feelsLike">--°</p>
+                    </div>
+                    <div class="detail-card">
+                        <i class="fas fa-compress-arrows-alt"></i>
+                        <h3>Pressure</h3>
+                        <p id="pressure">-- hPa</p>
+                    </div>
+                    <div class="detail-card">
+                        <i class="fas fa-sun"></i>
+                        <h3>UV Index</h3>
+                        <p id="uvIndex">--</p>
+                    </div>
                 </div>
-                <div class="weather-detail">
-                    <i class="fas fa-tint"></i>
-                    <p id="humidity">Humidity: --</p>
+            </div>
+
+            <section class="forecast-section">
+                <h3 class="forecast-title">
+                    <i class="fas fa-calendar-week"></i>
+                    7-Day Forecast
+                </h3>
+                <div class="forecast-container" id="forecastContainer">
+                    <!-- Forecast cards will be inserted here -->
                 </div>
-                <div class="weather-detail">
-                    <i class="fas fa-wind"></i>
-                    <p id="wind-speed">Wind Speed: --</p>
+            </section>
+
+            <div class="additional-info">
+                <div class="info-card">
+                    <h3><i class="fas fa-sun"></i> Sun Times</h3>
+                    <p>Sunrise: <span id="sunrise">--</span></p>
+                    <p>Sunset: <span id="sunset">--</span></p>
+                </div>
+                <div class="info-card">
+                    <h3><i class="fas fa-map-marker-alt"></i> Location Details</h3>
+                    <p>Country: <span id="country">--</span></p>
+                    <p>Timezone: <span id="timezone">--</span></p>
+                    <p>Coordinates: <span id="coordinates">--</span></p>
                 </div>
             </div>
         </div>
-        <div id="forecast" class="hidden">
-            <h3><i class="fas fa-calendar-alt"></i> 5-Day Forecast</h3>
-            <div id="forecast-container"></div>
-        </div>
-        <p id="error-message" class="hidden"><i class="fas fa-exclamation-triangle"></i> City not found, please try again!</p>
     </div>
-    <script type="module" src="script.js"></script>
-</body>
-</html>
+
+</script>
+        
